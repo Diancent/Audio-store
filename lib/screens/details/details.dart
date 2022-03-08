@@ -1,10 +1,8 @@
-import 'package:audiomain/screens/details/review/review.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:audiomain/model/product.dart';
+import 'package:flutter/cupertino.dart';
 
-import 'carousel.dart';
+import 'package:audiomain/widgets.dart';
+import 'package:audiomain/model/product.dart';
 
 class Detail extends StatefulWidget {
   const Detail({Key? key, required this.product}) : super(key: key);
@@ -14,13 +12,32 @@ class Detail extends StatefulWidget {
   State<Detail> createState() => _DetailState();
 }
 
-class _DetailState extends State<Detail> {
-  List<String> catagories = ["Overview", "Features", "Specification"];
-  int selectedIndex = 0;
-  int index = 0;
+class _DetailState extends State<Detail> with SingleTickerProviderStateMixin {
+  // List<String> catagories = ["Overview", "Features", "Specification"];
+  // int selectedIndex = 0;
+  // int index = 0;
+
+  late TabController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // TabController _tabController = TabController(length: 3, vsync: this);
+    // return DefaultTabController(
+    //   length: 3,
+    //   child: Scaffold(
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -48,86 +65,98 @@ class _DetailState extends State<Detail> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 24, right: 24),
+      body: Container(
         child: ListView(
-          children: [
-            // Image.asset(product.image),
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
             const SizedBox(height: 18),
-            Text(
-              "USD ${widget.product.price}",
-              style: const TextStyle(
-                color: Color.fromRGBO(10, 207, 131, 1),
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              // "TMA-2 \nHD WIRELESS",
-              "${widget.product.title}\n${widget.product.title2}",
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 10),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                  catagories.length,
-                  (index) => Column(
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            shadowColor: Colors.transparent,
-
-                            // shape: RoundedRectangleBorder(
-                            //   borderRadius: BorderRadius.circular(30.0),
-                            // ),
-
-                            primary: Colors.transparent,
-                            // primary: selectedIndex == index
-                            //     ? const Color.fromRGBO(10, 207, 131, 1)
-                            //     : const Color.fromRGBO(246, 246, 246, 1),
-                            padding: const EdgeInsets.only(right: 34)
-
-                            // textStyle: const TextStyle(
-                            //   fontWeight: FontWeight.bold,
-                            //   color: Colors.white,
-                            //   fontSize: 14,
-                            // ),
-                            ),
-                        onPressed: () {
-                          setState(() {
-                            selectedIndex = index;
-                          });
-                        },
-                        child: Text(
-                          catagories[index],
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(right: 35),
-                        width: 24,
-                        height: 3,
-                        color: selectedIndex == index
-                            ? const Color.fromRGBO(10, 207, 131, 1)
-                            : Colors.transparent,
-                      ),
-                    ],
-                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                "USD ${widget.product.price}",
+                style: const TextStyle(
+                  color: Color.fromRGBO(10, 207, 131, 1),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
+            const SizedBox(height: 6),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                // "TMA-2 \nHD WIRELESS",
+                "${widget.product.title}\n${widget.product.title2}",
+                style:
+                    const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+              ),
+            ),
             const SizedBox(height: 29),
-            const Carousel(),
-            const SizedBox(height: 40),
-            Review(),
+            DefaultTabController(
+              length: 3, // length of tabs
+              initialIndex: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(left: 9),
+                    child: const TabBar(
+                      isScrollable: true,
+                      labelColor: Colors.black,
+                      labelStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      unselectedLabelColor:
+                          Colors.black, // колір не активної вкладки
+                      // labelPadding: EdgeInsets.only(left: 0),
+                      // indicatorColor: Color.fromRGBO(10, 207, 131, 1),
+                      // indicatorWeight: 3,
+                      // indicatorSize: TabBarIndicatorSize.values, // ???
+                      // нижнє підкреслювання
+                      indicator: UnderlineTabIndicator(
+                        borderSide: BorderSide(
+                          width: 3.0,
+                          color: Color.fromRGBO(10, 207, 131, 1),
+                        ),
+                        insets: EdgeInsets.symmetric(horizontal: 37.0),
+                      ),
+                      tabs: [
+                        Tab(
+                          height: 33,
+                          text: "Overview",
+                        ),
+                        Tab(
+                          height: 33,
+                          text: "Features",
+                        ),
+                        Tab(
+                          height: 33,
+                          text: "Specification",
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 13304, //height of TabBarView
+                    // decoration: BoxDecoration(
+                    //     border: Border(
+                    //         top: BorderSide(color: Colors.grey, width: 0.5))),
+                    child: TabBarView(
+                      children: <Widget>[
+                        const FirstPage(),
+                        const SecondPage(),
+                        Container(
+                          child: const Text('Specification',
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),

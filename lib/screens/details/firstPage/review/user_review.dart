@@ -6,9 +6,15 @@ class UserReview extends StatelessWidget {
     required this.name,
     required this.text_review,
     required this.width,
+    required this.first_star,
+    required this.second_star,
+    required this.third_star,
+    required this.fourth_star,
+    required this.fifth_star,
   }) : super(key: key);
   final String name, text_review;
   final double width;
+  final Icon first_star, second_star, third_star, fourth_star, fifth_star;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +36,7 @@ class UserReview extends StatelessWidget {
                   // Spacer(
                   //   flex: 4,
                   // ),
-                  Text(
+                  const Text(
                     "1 Month ago",
                     style: TextStyle(
                       fontSize: 12,
@@ -39,17 +45,22 @@ class UserReview extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               Row(
                 children: [
-                  star(Icons.star, Colors.amber),
-                  star(Icons.star, Colors.amber),
-                  star(Icons.star, Colors.amber),
-                  star(Icons.star, Colors.amber),
-                  star(Icons.star_border, Colors.grey),
+                  first_star, second_star, third_star, fourth_star, fifth_star,
+                  // icon,
+                  // icon,
+                  // icon,
+                  // icon,
+                  // // star(Icons.star, Colors.amber),
+                  // // star(Icons.star, Colors.amber),
+                  // // star(Icons.star, Colors.amber),
+                  // // star(Icons.star, Colors.amber),
+                  // star(Icons.star_border, Colors.grey),
                 ],
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Text(text_review),
             ],
           ),
