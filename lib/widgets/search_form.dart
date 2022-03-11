@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchForm extends StatelessWidget {
+  final dynamic onChanged;
   final Function()? press;
   const SearchForm({
     Key? key,
     required this.press,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -15,6 +17,7 @@ class SearchForm extends StatelessWidget {
         width: 380,
         height: 45,
         child: TextFormField(
+          onChanged: onChanged,
           onTap: press,
           decoration: InputDecoration(
             hintText: "Search headphone",

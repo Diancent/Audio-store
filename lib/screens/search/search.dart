@@ -1,9 +1,12 @@
-import 'package:audiomain/model/product.dart';
+// import 'package:audiomain/model/product.dart';
+import 'package:audiomain/model/product_for_search.dart';
 import 'package:audiomain/screens/search/popular_product.dart';
 import 'package:audiomain/widgets/search_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:audiomain/routs.dart' as route;
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -13,9 +16,9 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  late List<Product> products;
+  List<Product> products = allProduct;
+  // late List<Product> products;
   String query = '';
-
   // @override
   // void initState() {
   //   super.initState();
@@ -61,6 +64,7 @@ class _SearchState extends State<Search> {
             // icon: const Icon(Icons.shopping_cart_outlined),
             // icon: Image.asset("assets/images/avatar2jp.jpg"),
             onPressed: () {
+              Navigator.pushNamed(context, route.exploreProducts);
               // Navigator.of(context).pop();
               // Navigator.pushNamed(context, route.setting);
             },
@@ -76,6 +80,7 @@ class _SearchState extends State<Search> {
           children: [
             const SizedBox(height: 15),
             SearchForm(
+              onChanged: searchProduct,
               press: () {},
             ),
             const SizedBox(height: 30),
@@ -99,9 +104,31 @@ class _SearchState extends State<Search> {
                 ),
               ),
             ),
-            const PopularProduct(),
-            const PopularProduct(),
-            const PopularProduct(),
+            Container(
+              height: 600,
+              child: ListView.builder(
+                // controller: _controller,
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  final product = products[index];
+                  return ProductCard(
+                    image: product.image,
+                    title: product.title,
+                    price: product.price,
+                    onTap: () {},
+                  );
+                  // return ListTile(
+                  //     leading: Image.asset(product.image),
+                  //     title: Text(
+                  //       product.title,
+                  //     ));
+                },
+              ),
+            ),
+
+            // const PopularProduct(),
+            // const PopularProduct(),
+            // const PopularProduct(),
             // ListView.builder(
             //     itemCount: products.length,
             //     itemBuilder: (context, index) {
@@ -113,6 +140,17 @@ class _SearchState extends State<Search> {
         ),
       ),
     );
+  }
+
+  void searchProduct(String query) {
+    final suggestions = allProduct.where((product) {
+      final productTitle = product.title.toLowerCase();
+      final input = query.toLowerCase();
+
+      return productTitle.contains(input);
+    }).toList();
+
+    setState(() => products = suggestions);
   }
 
   GestureDetector lastest_search(String title) {

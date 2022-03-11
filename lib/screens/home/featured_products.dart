@@ -12,6 +12,7 @@ class FeaturedProducts extends StatelessWidget {
 
   final String title;
   final Function()? press;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,11 +47,11 @@ class FeaturedProducts extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
-              demo_product.length,
+              allProduct.length,
               (index) => FeaturedProductCard(
-                image: demo_product[index].image,
-                title: demo_product[index].title,
-                price: demo_product[index].price,
+                image: allProduct[index].image,
+                title: allProduct[index].title,
+                price: allProduct[index].price,
                 // press: () {
                 //   Navigator.pushNamed(context, route.detail);
                 // },
@@ -59,10 +60,10 @@ class FeaturedProducts extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            Detail(product: demo_product[index]),
+                            Detail(product: allProduct[index]),
                       ));
                 },
-                indent: demo_product[index].indent,
+                indent: allProduct[index].indent,
               ),
             ),
           ),

@@ -1,17 +1,24 @@
+import 'package:audiomain/model/product.dart';
+import 'package:audiomain/screens/details/details.dart';
 import 'package:flutter/material.dart';
+import 'package:audiomain/routs.dart' as route;
 
-class PopularProduct extends StatefulWidget {
-  const PopularProduct({Key? key}) : super(key: key);
+class ProductCard extends StatelessWidget {
+  const ProductCard(
+      {Key? key,
+      required this.image,
+      required this.title,
+      required this.price,
+      this.onTap})
+      : super(key: key);
+  final String image, title;
+  final int price;
+  final dynamic onTap;
 
-  @override
-  _PopularProductState createState() => _PopularProductState();
-}
-
-class _PopularProductState extends State<PopularProduct> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(top: 20),
         child: Row(
@@ -25,21 +32,20 @@ class _PopularProductState extends State<PopularProduct> {
                 color: Color.fromRGBO(246, 246, 246, 1),
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
-              child: Image.asset(
-                "assets/images/image2.png",
-              ),
+              child: Image.asset(image),
             ),
             const SizedBox(width: 15),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "TMA-2 Comfort Wireless",
+                Text(
+                  // "TMA-2 Comfort Wireless",
+                  title,
                   style: TextStyle(fontSize: 16),
                 ),
-                const Text(
-                  "USD 270",
-                  style: TextStyle(
+                Text(
+                  "USD $price",
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                   ),
